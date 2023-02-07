@@ -13,7 +13,7 @@ type Args = {
   req: PayloadRequest
   token: string
   sendEmail: Payload['sendEmail']
-  emailOptions: EmailOptions
+  emailOptions: EmailOptions | false
 }
 
 async function sendVerificationEmail(args: Args): Promise<void> {
@@ -59,7 +59,7 @@ async function sendVerificationEmail(args: Args): Promise<void> {
     }
 
     sendEmail({
-      from: `"${emailOptions.fromName}" <${emailOptions.fromAddress}>`,
+      from: emailOptions ? `"${emailOptions.fromName}" <${emailOptions.fromAddress}>` : undefined,
       to: user.email,
       subject,
       html,

@@ -104,7 +104,7 @@ async function forgotPassword(incomingArgs: Arguments): Promise<string | null> {
     }
 
     email({
-      from: `"${emailOptions.fromName}" <${emailOptions.fromAddress}>`,
+      from: emailOptions ? `"${emailOptions.fromName}" <${emailOptions.fromAddress}>` : undefined,
       to: data.email,
       subject,
       html,

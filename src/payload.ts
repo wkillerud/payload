@@ -80,9 +80,9 @@ export class BasePayload<TGeneratedTypes extends GeneratedTypes> {
 
   logger: pino.Logger;
 
-  emailOptions: EmailOptions;
+  emailOptions: EmailOptions | false;
 
-  email: BuildEmailResult;
+  email: BuildEmailResult | false;
 
   sendEmail: (message: Message) => Promise<unknown>;
 
@@ -157,7 +157,7 @@ export class BasePayload<TGeneratedTypes extends GeneratedTypes> {
       throw new Error('Error: missing MongoDB connection URL.');
     }
 
-    this.emailOptions = { ...(options.email) };
+    this.emailOptions = options.email ? { ...(options.email) } : options.email;
     this.secret = crypto
       .createHash('sha256')
       .update(options.secret)
@@ -185,7 +185,7 @@ export class BasePayload<TGeneratedTypes extends GeneratedTypes> {
     }
 
     // Configure email service
-    this.email = buildEmail(this.emailOptions, this.logger);
+    this.email = this.emailOptions ? buildEmail(this.emailOptions, this.logger) : false;
     this.sendEmail = sendEmail.bind(this);
 
     // Initialize collections & globals

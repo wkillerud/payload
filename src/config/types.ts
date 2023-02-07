@@ -87,7 +87,7 @@ export type InitOptions = {
    *
    * @see https://payloadcms.com/docs/email/overview
    */
-  email?: EmailOptions;
+  email?: EmailOptions | false;
 
   /**
    * Make Payload start in local-only mode.
